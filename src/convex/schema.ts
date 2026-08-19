@@ -286,7 +286,7 @@ const schema = defineSchema(
       .index("by_timestamp", ["timestamp"])
       .index("by_action", ["action"]),
 
-    // ─── Match Fixtures (V1 — minimal) ───
+    // ─── Match Fixtures ───
     matches: defineTable({
       homeTeamId: v.id("teams"),
       awayTeamId: v.id("teams"),
@@ -310,6 +310,72 @@ const schema = defineSchema(
       .index("by_competition", ["competitionId"])
       .index("by_season", ["seasonId"])
       .index("by_date", ["matchDate"]),
+
+    // ─── Match Events (goals, cards, substitutions) ───
+    matchEvents: defineTable({
+      matchId: v.id("matches"),
+      eventType: v.union(
+        v.literal("goal"),
+        v.literal("own_goal"),
+        v.literal("yellow_card"),
+        v.literal("red_card"),
+        v.literal("second_yellow"),
+        v.literal("substitution"),
+        v.literal("penalty_scored"),
+        v.literal("penalty_missed"),
+      ),
+      playerId: v.optional(v.id("players")),
+      assistedByPlayerId: v.optional(v.id("players")),
+      teamId: v.optional(v.id("teams")),
+      minute: v.optional(v.number()),
+      description: v.optional(v.string()),
+      createdAt: v.number(),
+    })
+      .index("by_match", ["matchId"])
+      .index("by_player", ["playerId"]),
+
+    // ─── Disciplinary Cases ───
+    disciplinaryCases: defineTable({
+      playerId: v.id("players"),
+      matchId: v.optional(v.id("matches")),
+      clubId: v.optional(v.id("clubs")),
+      competitionId: v.optional(v.id("competitions")),
+      offense: v.string(),
+      cardType: v.union(v.literal("yellow"), v.literal("red"), v.literal("second_yellow")),
+      matchMinute: v.optional(v.number()),
+      suspensionMatches: v.number(),
+      suspensionStart: v.optional(v.string()),
+      suspensionEnd: v.optional(v.string()),
+      fine: v.optional(v.number()),
+      status: v.union(
+        v.literal("open"),
+        v.literal("suspended"),
+        v.literal("served"),
+        v.literal("appealed"),
+        v.literal("dismissed"),
+      ),
+      notes: v.optional(v.string()),
+      reviewedBy: v.optional(v.id("users")),
+      reviewedAt: v.optional(v.number()),
+      createdAt: v.number(),
+      updatedAt: v.number(),
+    })
+      .index("by_player", ["playerId"])
+      .index("by_status", ["status"])
+      .index("by_club", ["clubId"]),
+
+    // ─── Yellow Card Accumulation Tracking ───
+    cardAccumulations: defineTable({
+      playerId: v.id("players"),
+      competitionId: v.id("competitions"),
+      seasonId: v.id("seasons"),
+      yellowCards: v.number(),
+      redCards: v.number(),
+      totalSuspensionMatches: v.number(),
+      updatedAt: v.number(),
+    })
+      .index("by_player", ["playerId"])
+      .index("by_player_competition", ["playerId", "competitionId"]),
   },
   {
     schemaValidation: false,

@@ -15,6 +15,11 @@ import {
   X,
   ChevronRight,
   User,
+  ArrowRightLeft,
+  Swords,
+  ShieldAlert,
+  Layers,
+  BarChart3,
 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -34,8 +39,14 @@ const navItems = [
   { label: "Players", href: "/dashboard/players", icon: Users },
   { label: "Clubs", href: "/dashboard/clubs", icon: Building2 },
   { label: "Seasons", href: "/dashboard/seasons", icon: Calendar },
+  { label: "Divisions", href: "/dashboard/divisions", icon: Layers },
   { label: "Competitions", href: "/dashboard/competitions", icon: Trophy },
   { label: "Registrations", href: "/dashboard/registrations", icon: ClipboardList },
+  { label: "Transfers", href: "/dashboard/transfers", icon: ArrowRightLeft },
+  { label: "Documents", href: "/dashboard/documents", icon: FileText },
+  { label: "Matches", href: "/dashboard/matches", icon: Swords },
+  { label: "Standings", href: "/dashboard/standings", icon: BarChart3 },
+  { label: "Disciplinary", href: "/dashboard/disciplinary", icon: ShieldAlert },
   { label: "Audit Log", href: "/dashboard/audit", icon: ShieldCheck },
 ];
 

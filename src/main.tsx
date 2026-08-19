@@ -18,6 +18,12 @@ const ClubsPage = lazy(() => import("./pages/Clubs.tsx"));
 const SeasonsPage = lazy(() => import("./pages/Seasons.tsx"));
 const CompetitionsPage = lazy(() => import("./pages/Competitions.tsx"));
 const RegistrationsPage = lazy(() => import("./pages/Registrations.tsx"));
+const TransfersPage = lazy(() => import("./pages/Transfers.tsx"));
+const DocumentsPage = lazy(() => import("./pages/Documents.tsx"));
+const DivisionsPage = lazy(() => import("./pages/Divisions.tsx"));
+const MatchesPage = lazy(() => import("./pages/Matches.tsx"));
+const StandingsPage = lazy(() => import("./pages/Standings.tsx"));
+const DisciplinaryPage = lazy(() => import("./pages/Disciplinary.tsx"));
 const AuditLogPage = lazy(() => import("./pages/AuditLog.tsx"));
 const NotFound = lazy(() => import("./pages/NotFound.tsx"));
 
@@ -175,6 +181,54 @@ createRoot(document.getElementById("root")!).render(
                 element={
                   <RequireAuth>
                     <RegistrationsPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/dashboard/transfers"
+                element={
+                  <RequireAuth>
+                    <TransfersPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/dashboard/documents"
+                element={
+                  <RequireAuth>
+                    <DocumentsPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/dashboard/divisions"
+                element={
+                  <RequireAuth>
+                    <DivisionsPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/dashboard/matches"
+                element={
+                  <RequireAuth>
+                    <MatchesPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/dashboard/standings"
+                element={
+                  <RequireAuth>
+                    <StandingsPage />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/dashboard/disciplinary"
+                element={
+                  <RequireAuth>
+                    <DisciplinaryPage />
                   </RequireAuth>
                 }
               />
