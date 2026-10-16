@@ -6,9 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "preview": "vite preview"
+    "lint": "eslint frontend --config frontend/eslint.config.js",
+    "format": "prettier --write frontend --config frontend/.prettierrc --ignore-path frontend/.prettierignore",
+    "preview": "vite preview",
+    "convex": "convex dev --config backend/convex.json",
+    "convex:deploy": "convex deploy --config backend/convex.json",
+    "server": "npm --prefix backend run dev",
+    "server:start": "npm --prefix backend run start",
+    "server:seed": "npm --prefix backend run seed"
   },
   "dependencies": {
     "@convex-dev/auth": "^0.0.90",

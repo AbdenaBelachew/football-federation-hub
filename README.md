@@ -13,13 +13,81 @@ This project uses the following tech stack:
 - Framer Motion (for animations)
 - Three js (for 3d models)
 
-All relevant files live in the 'src' directory.
+## Project Structure
+
+The project is organized into a clean backend/frontend separation with minimal root configuration:
+
+```
+football-federation-hub/
+├── backend/                 # Backend code
+│   ├── convex/             # Convex functions and database schema
+│   │   ├── auth/           # Authentication configuration
+│   │   ├── *.ts            # Backend functions (users.ts, clubs.ts, etc.)
+│   │   └── schema.ts       # Database schema
+│   ├── convex.json         # Convex configuration
+│   ├── .env.example        # Environment variables template
+│   └── main.ts             # Hono server for production
+├── frontend/               # Frontend code
+│   ├── components/         # React components
+│   │   └── ui/            # Shadcn UI components (Shadcn UI)
+│   ├── pages/             # Page components
+│   ├── hooks/             # Custom React hooks
+│   ├── lib/               # Utility functions
+│   ├── types/             # TypeScript types
+│   ├── public/            # Static assets
+│   ├── isolate/           # Built/isolated frontend assets
+│   ├── index.html         # HTML entry point
+│   ├── main.tsx           # React application entry point
+│   ├── index.css          # Global styles
+│   ├── components.json    # Shadcn UI configuration
+│   ├── eslint.config.js   # ESLint configuration
+│   ├── .prettierrc        # Prettier configuration
+│   ├── .prettierignore    # Prettier ignore patterns
+│   ├── postcss.config.cjs # PostCSS configuration
+│   └── vite-env.d.ts      # Vite environment types
+├── docs/                   # Documentation
+│   └── integrations.md    # Integration documentation
+├── .gitignore             # Git ignore patterns
+├── package.json           # Dependencies and scripts
+├── package-lock.json      # NPM lock file
+├── bun.lock              # Bun lock file
+├── tsconfig.json         # TypeScript root configuration
+├── tsconfig.app.json     # TypeScript app configuration
+├── tsconfig.node.json    # TypeScript node configuration
+├── vite.config.ts        # Vite configuration
+└── README.md             # This file
+```
 
 Use bun for the package manager.
 
 ## Setup
 
 This project is set up already and running on a cloud environment, as well as a convex development in the sandbox.
+
+## Development Commands
+
+```bash
+# Start frontend development server
+npm run dev
+
+# Start convex backend development
+npm run convex
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Lint code
+npm run lint
+
+# Format code
+npm run format
+
+# Deploy convex backend
+npm run convex:deploy
+```
 
 ## Environment Variables
 

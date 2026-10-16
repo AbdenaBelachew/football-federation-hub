@@ -9,13 +9,15 @@ export default defineConfig({
   plugins: [react(), vlyPlugin(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(__dirname, "./frontend"),
+      "@convex": path.resolve(__dirname, "./backend/convex"),
     },
     // Force a single copy of React across all packages (including vlyPlugin).
     // Without this, @vly-ai/integrations can resolve its own React copy, which
     // triggers "Invalid hook call" errors at runtime.
     dedupe: ["react", "react/jsx-runtime", "react-dom", "react-dom/client"],
   },
+  publicDir: path.resolve(__dirname, "./frontend/public"),
   build: {
     // Enable source maps for better debugging (disable in production if needed)
     sourcemap: false,
@@ -26,7 +28,6 @@ export default defineConfig({
         manualChunks: {
           // Vendor chunks for large libraries
           'react-vendor': ['react', 'react-dom', 'react-router'],
-          'convex-vendor': ['convex'],
           // Large UI library chunks
           'radix-ui': [
             '@radix-ui/react-accordion',
@@ -74,16 +75,13 @@ export default defineConfig({
   },
   // Optimize dependencies
   optimizeDeps: {
-    // Only scan the app entry HTML; avoids crawling unrelated *.html files
-    // if a legacy snapshot accidentally contains leaked package folders.
-    entries: ['index.html'],
+    entries: ['index.html', 'frontend/index.html'],
     include: [
       'react',
       'react/jsx-runtime',
       'react-dom',
       'react-dom/client',
       'react-router',
-      '@convex-dev/auth/react',
       'framer-motion',
     ],
   },
@@ -92,6 +90,21 @@ export default defineConfig({
     // Bind to all interfaces so WebContainer's server-ready event fires.
     host: true,
     port: 5173,
+    watch: {
+      ignored: [
+        '**/backend/**',
+        '**/data/**',
+        '**/.git/**',
+        '**/node_modules/**',
+        '**/*.json',
+      ],
+    },
+    proxy: {
+      '/api': {
+        target: 'http://localhost:5001',
+        changeOrigin: true,
+      },
+    },
     // Keep HMR on, but disable full-screen error overlay
     hmr: {
       overlay: false,

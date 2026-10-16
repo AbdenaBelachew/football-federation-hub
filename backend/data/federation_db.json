@@ -1,0 +1,4 @@
+{
+  "_NOTICE": "DEPRECATED AND PERMANENTLY DISABLED",
+  "message": "All Football Federation Hub data is stored and queried exclusively in the PostgreSQL database 'federation-db'. This file is no longer used for storage."
+}

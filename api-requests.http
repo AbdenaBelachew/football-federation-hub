@@ -1,0 +1,211 @@
+### Football Federation Hub — REST Client / Postman Collection
+### You can run these directly in VS Code (with REST Client extension) or import into Postman.
+
+@baseUrl = http://localhost:5001/api
+@token = dev-token
+
+### ============================================================
+### 1. HEALTH & SYSTEM
+### ============================================================
+
+### Health Check
+GET http://localhost:5001/health
+
+### Root API Map
+GET {{baseUrl}}/
+
+### Reset Database to Clean Seed Data
+POST {{baseUrl}}/system/reset-seed
+
+### ============================================================
+### 2. AUTHENTICATION
+### ============================================================
+
+### Get Demo Accounts List
+GET {{baseUrl}}/auth/demo-accounts
+
+### Login as Super Admin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@federation.org",
+  "password": "password123"
+}
+
+### Register New User
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "scout@football.org",
+  "password": "password123",
+  "name": "Federation Scout"
+}
+
+### Get Current User Profile
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+
+### ============================================================
+### 3. CLUBS (POST & GET)
+### ============================================================
+
+### GET All Clubs
+GET {{baseUrl}}/clubs?limit=10
+Authorization: Bearer {{token}}
+
+### GET Club by ID
+GET {{baseUrl}}/clubs/club-1
+Authorization: Bearer {{token}}
+
+### POST Create New Club (Inserts to Database)
+POST {{baseUrl}}/clubs
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "Dire Dawa City FC",
+  "shortName": "Dire Dawa",
+  "city": "Dire Dawa",
+  "country": "Ethiopia",
+  "foundedYear": 1982,
+  "status": "active"
+}
+
+
+### ============================================================
+### 4. PLAYERS (POST & GET)
+### ============================================================
+
+### GET All Players
+GET {{baseUrl}}/players?limit=10
+Authorization: Bearer {{token}}
+
+### POST Create New Player
+POST {{baseUrl}}/players
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "firstName": "Dawit",
+  "lastName": "Fikru",
+  "nationality": "Ethiopian",
+  "position": "Forward",
+  "dateOfBirth": "2001-05-14",
+  "gender": "male",
+  "currentClubId": "club-1",
+  "status": "active"
+}
+
+
+### ============================================================
+### 5. REGISTRATIONS & LICENSING (POST & GET)
+### ============================================================
+
+### GET All Registrations
+GET {{baseUrl}}/registrations
+Authorization: Bearer {{token}}
+
+### POST Submit Player Registration
+POST {{baseUrl}}/registrations
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "playerId": "plr-1",
+  "clubId": "club-1",
+  "seasonId": "season-2024-25",
+  "jerseyNumber": 10
+}
+
+### PATCH Approve Registration
+PATCH {{baseUrl}}/registrations/reg-1/approve
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "notes": "All identity and medical documents verified."
+}
+
+
+### ============================================================
+### 6. TRANSFERS (POST & GET)
+### ============================================================
+
+### GET All Transfers
+GET {{baseUrl}}/transfers
+Authorization: Bearer {{token}}
+
+### POST Initiate Transfer Request
+POST {{baseUrl}}/transfers
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "playerId": "plr-2",
+  "fromClubId": "club-2",
+  "toClubId": "club-1",
+  "transferType": "permanent",
+  "transferFee": 75000,
+  "currency": "USD",
+  "contractUntil": "2027-06-30"
+}
+
+### PATCH Approve Transfer
+PATCH {{baseUrl}}/transfers/trf-1/approve
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "notes": "Approved by federation transfer officer."
+}
+
+
+### ============================================================
+### 7. MATCHES & LIVE EVENTS (POST & GET)
+### ============================================================
+
+### GET All Matches
+GET {{baseUrl}}/matches
+Authorization: Bearer {{token}}
+
+### POST Schedule New Match
+POST {{baseUrl}}/matches
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "competitionId": "comp-1",
+  "seasonId": "season-2024-25",
+  "homeTeamId": "team-1",
+  "awayTeamId": "team-2",
+  "matchDate": "2026-10-25",
+  "venue": "Addis Ababa Stadium"
+}
+
+### POST Add Goal Event (Updates Match Score in DB)
+POST {{baseUrl}}/matches/match-1/events
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "eventType": "goal",
+  "minute": 42,
+  "teamId": "team-1",
+  "playerId": "plr-1"
+}
+
+
+### ============================================================
+### 8. DASHBOARD & STANDINGS (GET)
+### ============================================================
+
+### GET League Standings
+GET {{baseUrl}}/competitions/comp-1/standings
+Authorization: Bearer {{token}}
+
+### GET Federation Dashboard Stats
+GET {{baseUrl}}/dashboard/stats
+Authorization: Bearer {{token}}
